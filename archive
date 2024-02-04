@@ -1,0 +1,100 @@
+<?php
+/**
+ * The Template Name: AlphaDot Job Post
+ * * The template for displaying AlphaDot Job Post page
+ * @package OceanWP WordPress theme
+ *
+ */
+
+
+get_header(); ?>
+
+	<?php do_action( 'ocean_before_content_wrap' ); ?>
+
+	<div id="content-wrap" class="container clr">
+
+		<?php do_action( 'ocean_before_primary' ); ?>
+
+		<div id="primary" class="content-area clr">
+
+			<?php do_action( 'ocean_before_content' ); ?>
+
+			<div id="content" class="site-content clr">
+
+				<?php do_action( 'ocean_before_content_inner' ); ?>
+
+                    <div class="ad-job-list-wrapper-inner">
+    <div class="ad-job-items">
+        <?php
+        $args = array(
+            'post_type' => 'all-jobs', 
+            'posts_per_page' => -1,
+        );
+
+        $alphadot_jobs_post = new WP_Query($args);
+
+        if ($alphadot_jobs_post->have_posts()) :
+            while ($alphadot_jobs_post->have_posts()) : $alphadot_jobs_post->the_post();
+                $jobTitle = get_field('title');
+                $jobLocation = get_field('location');
+                $jobType = get_field('job_type');
+                $jobVacancy = get_field('vacancy');
+                $jobExperience = get_field('experience');
+                $jobDeadline = get_field('deadline');
+                ?>
+
+                <div class="ad-job-single-item">
+                    <div class="job-summery-col">
+                        <div class="job-title-wrapper">
+                            <a href="<?php the_permalink(); ?>"><h4><?php echo $jobTitle; ?></h4></a>
+                        </div>
+                        <div class="job-summery-info">
+                            <ul>
+                                <li><span><i class="fas fa-map-marker-alt"></i></span><?php echo $jobLocation; ?></li>
+                                <li><span><i class="fas fa-briefcase"></i></span><?php echo $jobType; ?></li>
+                                <li><span><i class="fas fa-search"></i></span>Vacancy: <?php echo $jobVacancy; ?></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="job-experience-col">
+                        <p class="job-list-title">Experience</p>
+                        <p class="job-list-value"><?php echo $jobExperience; ?></p>
+                    </div>
+                    <div class="job-deadline-col">
+                        <p class="job-list-title">Deadline</p>
+                        <p class="job-list-value"><?php echo $jobDeadline; ?></p>
+                    </div>
+                    <div class="job-appy-btn-col">
+                        <a href="<?php the_permalink(); ?>" class="button list-apply" data-wpel-link="internal">Read More</a>
+                    </div>
+                </div>  
+                
+                <?php
+            endwhile;
+            wp_reset_postdata();
+        else :
+            // No Jobs found
+            echo 'No Job found.';
+        endif;
+        ?>
+
+    </div>
+</div>
+
+
+
+                <?php do_action( 'ocean_after_content_inner' ); ?>
+
+            </div><!-- #content -->
+
+            <?php do_action( 'ocean_after_content' ); ?>
+
+    </div><!-- #primary -->
+
+    <?php do_action( 'ocean_after_primary' ); ?>
+
+    </div><!-- #content-wrap -->
+
+    <?php do_action( 'ocean_after_content_wrap' ); ?>
+
+<?php get_footer(); ?>
